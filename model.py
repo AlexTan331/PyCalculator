@@ -33,7 +33,6 @@ class Model:
                 self._clear_all()
                 self.operation_queue[0] = result
 
-        print(self.operation_queue)
         return ''.join(self.operation_queue)
 
     
