@@ -29,13 +29,13 @@ class View(tk.Tk):
         style.configure('Digit.TButton', foreground='black', background='#edf2f4', font=("Arial", 10))
 
         # style for exit button
-        style.configure('Exit.TButton', width=5, foreground='red', background='white', font=("Arial", 15, 'underline'))
+        style.configure('Exit.TButton', width=5, foreground='#e76f51', background='white', font=("Arial", 15))
 
         # style for operation buttons
         style.configure('Mis.TButton', foreground='black', background='#f8f9fa', font=("Arial", 10))
 
         # style for equal sign button
-        style.configure('Equal.TButton', foreground='black', background='green', font=("Arial", 10))
+        style.configure('Equal.TButton', foreground='black', background='#a8dadc', font=("Arial", 10))
 
     def _create_title(self):
         self.title('Calculator v0.1')

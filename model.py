@@ -1,38 +1,38 @@
 class Model:
-    def __init__(self):
-        self.operation_queue = [''] * 3
+    OPERATORS = ['/', '*', '-', '+']
 
-    def _clear_all(self):
-        self.operation_queue = [''] * 3
+    def __init__(self):
+        self._init_queue()
+
+    def _init_queue(self):
+        self.operation_queue = [''] * 9
+        self.idx = 0
 
     def calculate(self, value):
-        if value == "clear":
-            self._clear_all()
+        if value == 'clear':
+            self._init_queue()
             return ""
-        if not self.operation_queue[1]:
-            if value == '.' and value in self.operation_queue[0]:
-                pass
-            elif value.isdigit() or (value == '.' and value not in self.operation_queue[0]):
-                self.operation_queue[0] += value
+
+        if self.idx % 2 == 0:
+            if value.isdigit() or (value == '.' and value not in self.operation_queue[self.idx]):
+                self.operation_queue[self.idx] += value
+            elif value == "%" and self.idx == 0:
+                self.operation_queue[0] = str(eval(f'{self.operation_queue[0]} / 100'))
+            elif value in self.OPERATORS and self.idx + 1 < len(self.operation_queue):
+                self.idx += 1
+                self.operation_queue[self.idx] = value
             elif value == '+/-':
-                operand = self.operation_queue[0]
-                self.operation_queue[0] = operand[1:] if operand[0] == '-' else '-' + operand
+                operand = self.operation_queue[self.idx]
+                self.operation_queue[self.idx] = operand[1:] if operand[0] == '-' else '-' + operand
             elif value == '=':
-                pass
-            else:
-                if self.operation_queue[0]:
-                    self.operation_queue[1] = value
-        else:
-            if value.isdigit() or (value == '.' and value not in self.operation_queue[2]):
-                self.operation_queue[2] += value
-            elif value == '+/-':
-                operand = self.operation_queue[2]
-                self.operation_queue[2] = operand[1:] if operand[0] == '-' else '-' + operand
-            elif value == '=' and self.operation_queue[2]:
                 result = str(eval("".join(self.operation_queue)))
-                self._clear_all()
+                self._init_queue()
                 self.operation_queue[0] = result
+        else:
+            if value in self.OPERATORS:
+                self.operation_queue[self.idx] = value
+            elif value.isdigit() or (value == '.' and value not in self.operation_queue[self.idx + 1]):
+                self.idx += 1
+                self.operation_queue[self.idx] = value
 
         return ''.join(self.operation_queue)
-
-    
